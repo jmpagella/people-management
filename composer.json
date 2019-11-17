@@ -1,0 +1,24 @@
+{
+    "name": "jmpagella/people-management",
+    "description": "This package allows people management generating the structures and models necessary to carry it out.",
+    "authors": [
+        {
+            "name": "Juan Martin Pagella",
+            "email": "jmpagella@gmail.com"
+        }
+    ],
+    "require": {},
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "jmpagella\\PeopleManagement\\PeopleManagementServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "jmpagella\\PeopleManagement\\": "src/"
+        }
+    }
+}

@@ -1,24 +1,29 @@
 {
     "name": "jmpagella/people-management",
     "description": "This package allows people management generating the structures and models necessary to carry it out.",
+    "license": "MIT",
+    "homepage": "https://github.com/jmpagella/people-management",
     "authors": [
         {
             "name": "Juan Martin Pagella",
             "email": "jmpagella@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=5.6.4",
+        "laravel/framework": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0"
+    },
     "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "jmpagella\\PeopleManagement\\": "src/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
                 "jmpagella\\PeopleManagement\\PeopleManagementServiceProvider"
             ]
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "jmpagella\\PeopleManagement\\": "src/"
         }
     }
 }

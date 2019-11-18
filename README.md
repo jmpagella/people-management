@@ -8,13 +8,13 @@ Through the composer:
 
     composer require jmpagella/people-management
 
-Then run the migrations:
+Install to publish configuration and migration files:
+
+    php artisan people-management:install
+
+Finally run the migrations:
 
     php artisan migrate
-
-(Optional) You can publish the configuration to be able to modify the table names:
-
-    php artisan vendor:publish --provider="jmpagella\PeopleManagement\PeopleManagementServiceProvider"
 
 ## Tables
 

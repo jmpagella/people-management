@@ -13,7 +13,7 @@ class PeopleManagementServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'people');
     }
 
     /**
@@ -24,5 +24,9 @@ class PeopleManagementServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+
+        $this->publishes([
+            __DIR__.'/../config/config.php' =>   config_path('people-management.php'),
+        ], 'config');
     }
 }

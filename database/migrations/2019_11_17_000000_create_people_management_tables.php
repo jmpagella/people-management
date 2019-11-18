@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Config;
 
 class CreatePeopleManagementTables extends Migration
 {
@@ -14,13 +15,13 @@ class CreatePeopleManagementTables extends Migration
     public function up()
     {
         // People Categories
-        Schema::create('people_categories', function (Blueprint $table) {
+        Schema::create(Config::get('people.tables.categories'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
 
         // People
-        Schema::create('people', function (Blueprint $table) {
+        Schema::create(Config::get('people.tables.people'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('last_name');
@@ -30,24 +31,33 @@ class CreatePeopleManagementTables extends Migration
         });
 
         // People - People Categories
-        Schema::create('people_people_categories', function (Blueprint $table) {
+        Schema::create(Config::get('people.tables.people_categories'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('people_id');
             $table->unsignedInteger('people_category_id');
             $table->timestamps();
 
-            $table->foreign('people_id')->references('id')->on('people');
-            $table->foreign('people_category_id')->references('id')->on('people_categories');
+            $table->foreign('people_id')
+                ->references('id')
+                ->on(Config::get('people.tables.people'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('people_category_id')
+                ->references('id')
+                ->on(Config::get('people.tables.categories'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
 
         // People Attribute Types
-        Schema::create('people_attribute_types', function (Blueprint $table) {
+        Schema::create(Config::get('people.tables.attribute_types'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
         });
 
         // People Telephones
-        Schema::create('people_telephones', function (Blueprint $table) {
+        Schema::create(Config::get('people.tables.telephones'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('people_id');
             $table->unsignedInteger('people_attribute_type_id')->nullable();
@@ -56,24 +66,42 @@ class CreatePeopleManagementTables extends Migration
             $table->string('telephone');
             $table->timestamps();
 
-            $table->foreign('people_id')->references('id')->on('people');
-            $table->foreign('people_attribute_type_id')->references('id')->on('people_attribute_types');
+            $table->foreign('people_id')
+                ->references('id')
+                ->on(Config::get('people.tables.people'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('people_attribute_type_id')
+                ->references('id')
+                ->on(Config::get('people.tables.attribute_types'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
 
         // People Emails
-        Schema::create('people_emails', function (Blueprint $table) {
+        Schema::create(Config::get('people.tables.emails'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('people_id');
             $table->unsignedInteger('people_attribute_type_id')->nullable();
             $table->string('email');
             $table->timestamps();
 
-            $table->foreign('people_id')->references('id')->on('people');
-            $table->foreign('people_attribute_type_id')->references('id')->on('people_attribute_types');
+            $table->foreign('people_id')
+                ->references('id')
+                ->on(Config::get('people.tables.people'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('people_attribute_type_id')
+                ->references('id')
+                ->on(Config::get('people.tables.attribute_types'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
 
         // People Addresses
-        Schema::create('people_addresses', function (Blueprint $table) {
+        Schema::create(Config::get('people.tables.addresses'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('people_id');
             $table->unsignedInteger('people_attribute_type_id')->nullable();
@@ -83,19 +111,32 @@ class CreatePeopleManagementTables extends Migration
             $table->string('streetAddress');
             $table->timestamps();
 
-            $table->foreign('people_id')->references('id')->on('people');
-            $table->foreign('people_attribute_type_id')->references('id')->on('people_attribute_types');
+            $table->foreign('people_id')
+                ->references('id')
+                ->on(Config::get('people.tables.people'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
+            $table->foreign('people_attribute_type_id')
+                ->references('id')
+                ->on(Config::get('people.tables.attribute_types'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
 
         // People Notes
-        Schema::create('people_notes', function (Blueprint $table) {
+        Schema::create(Config::get('people.tables.notes'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('people_id');
             $table->string('title');
             $table->text('message');
             $table->timestamps();
 
-            $table->foreign('people_id')->references('id')->on('people');
+            $table->foreign('people_id')
+                ->references('id')
+                ->on(Config::get('people.tables.people'))
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 
@@ -106,13 +147,13 @@ class CreatePeopleManagementTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('people_categories');
-        Schema::dropIfExists('people');
-        Schema::dropIfExists('people_people_categories');
-        Schema::dropIfExists('people_attribute_types');
-        Schema::dropIfExists('people_telephones');
-        Schema::dropIfExists('people_emails');
-        Schema::dropIfExists('people_addresses');
-        Schema::dropIfExists('people_notes');
+        Schema::dropIfExists(Config::get('people.tables.telephones'));
+        Schema::dropIfExists(Config::get('people.tables.emails'));
+        Schema::dropIfExists(Config::get('people.tables.addresses'));
+        Schema::dropIfExists(Config::get('people.tables.notes'));
+        Schema::dropIfExists(Config::get('people.tables.attribute_types'));
+        Schema::dropIfExists(Config::get('people.tables.people_categories'));
+        Schema::dropIfExists(Config::get('people.tables.categories'));
+        Schema::dropIfExists(Config::get('people.tables.people'));
     }
 }

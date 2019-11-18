@@ -3,10 +3,12 @@
 namespace jmpagella\PeopleManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Config;
 
 class PeopleTelephone extends Model
 {
     protected $guarded = ['id'];
+    protected $table;
 
     public function people()
     {
@@ -15,5 +17,11 @@ class PeopleTelephone extends Model
     public function attributeType()
     {
         return $this->belongsTo(PeopleAttributeType::class);
+    }
+
+    public function __construct( array $attributes = [ ] )
+    {
+        parent::__construct( $attributes );
+        $this->table = Config::get( 'people.tables.telephones' );
     }
 }

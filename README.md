@@ -12,6 +12,10 @@ Then run the migrations:
 
     php artisan migrate
 
+(Optional) You can publish the configuration to be able to modify the table names:
+
+    php artisan vendor:publish --provider="jmpagella\PeopleManagement\PeopleManagementServiceProvider"
+
 ## Tables
 
 After you run the migration, 8 tables will be created:
